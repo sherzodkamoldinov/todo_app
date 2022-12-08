@@ -5,6 +5,7 @@ import 'package:todo_app/ui/on_boarding/pages/on_boarding_page_2.dart';
 import 'package:todo_app/ui/on_boarding/pages/on_boarding_page_3.dart';
 import 'package:todo_app/ui/widgets/custom_button.dart';
 import 'package:todo_app/utils/colors.dart';
+import 'package:todo_app/utils/const.dart';
 import 'package:todo_app/utils/text_style.dart';
 
 class OnBoardingPage extends StatefulWidget {
@@ -34,10 +35,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // SKIP BUTTON
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, authPage);
+                },
                 child: Text('SKIP', style: MyTextStyle.regularLato.copyWith(color: Colors.white.withOpacity(.44))),
               ),
+
+              // PAGES
               Expanded(
                 child: PageView(
                   physics: const NeverScrollableScrollPhysics(),
@@ -51,6 +57,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 ),
               ),
               const SizedBox(height: 20),
+
+              // PAGE INDICATOR
               Center(
                 child: SmoothPageIndicator(
                     controller: _pageController, // PageController
@@ -64,6 +72,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     }),
               ),
               const SizedBox(height: 50),
+
+              // BUTTONS
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -77,8 +87,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       : const Expanded(child: SizedBox()),
                   CustomButton(
                     onPressed: () {
-                      _pageController.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.ease);
+                      if (currentPage < 2) {
+                        _pageController.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.ease);
+                      } else {
+                        Navigator.pushNamed(context, authPage);
+                      }
                     },
+                    fillColor: true,
                     text: currentPage != 2 ? 'NEXT' : 'Get Started',
                   )
                 ],

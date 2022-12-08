@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: MyRouter.generateRoute,
-        initialRoute: splashPage,
+      initialRoute: authPage,
     );
   }
 }

@@ -3,10 +3,11 @@ import 'package:todo_app/utils/colors.dart';
 import 'package:todo_app/utils/text_style.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, this.width, required this.text, required this.onPressed});
+  const CustomButton({super.key, this.width, required this.text, required this.onPressed, required this.fillColor});
   final double? width;
   final String text;
   final VoidCallback onPressed;
+  final bool fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,8 @@ class CustomButton extends StatelessWidget {
         height: 48,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
-          color: MyColors.buttonColor,
+          color: fillColor ? MyColors.buttonColor : null,
+          border: !fillColor ? Border.all(color: MyColors.buttonColor, width: 2) : null
         ),
         child: Center(
           child: Text(text, style: MyTextStyle.regularLato),
