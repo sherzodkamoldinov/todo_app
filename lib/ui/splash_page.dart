@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/utils/colors.dart';
 import 'package:todo_app/utils/const.dart';
+import 'package:todo_app/utils/icons.dart';
 import 'package:todo_app/utils/text_style.dart';
-import 'package:todo_app/utils/utils.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -16,7 +16,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
-      // Navigator.pushNamed(context, splashPage);
+      Navigator.pushNamed(context, onBoardingPage);
     });
   }
 

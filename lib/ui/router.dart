@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/ui/on_boarding/on_boarding_page.dart';
 import 'package:todo_app/ui/splash_page.dart';
 import 'package:todo_app/utils/const.dart';
 
@@ -8,6 +9,8 @@ class MyRouter {
     switch (settings.name) {
       case splashPage:
         return _navigateTo(view: const SplashPage());
+        case onBoardingPage:
+        return _navigateTo(view: const OnBoardingPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
