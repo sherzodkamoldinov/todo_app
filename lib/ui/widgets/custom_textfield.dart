@@ -44,7 +44,7 @@ class CustomTextField extends StatelessWidget {
       ),
       validator: (value) {
         if (value != null) {
-          if (isPassword && value.trim().length < 8) {
+          if (isPassword && _confirmController == null && value.trim().length < 8) {
             return 'Password should be large then 7';
           } else if (_confirmController != null) {
             if (isEnd && _confirmController!.text.trim() != value.trim()) {

@@ -4,6 +4,7 @@ import 'package:todo_app/ui/widgets/custom_app_bar.dart';
 import 'package:todo_app/ui/widgets/custom_button.dart';
 import 'package:todo_app/ui/widgets/custom_textfield.dart';
 import 'package:todo_app/utils/colors.dart';
+import 'package:todo_app/utils/const.dart';
 import 'package:todo_app/utils/text_style.dart';
 
 class LoginPage extends StatefulWidget {
@@ -58,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 8),
                   CustomTextField(
                     controller: _passwordController,
-                    hintText: 'Enter your Username',
+                    hintText: 'Enter your Password',
                     isEnd: true,
                     isPassword: true,
                     isVisibility: true,
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
 
             // FACEBOOK
             CustomButton(
-              text: 'Login with Google',
+              text: 'Login with Facebook',
               onPressed: () {},
               fillColor: false,
               icon: FontAwesomeIcons.facebook,
@@ -109,7 +110,9 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 10),
             // NAVIGATE TO REGISTER
             InkWell(
-              onTap: (){},
+              onTap: (){
+                Navigator.of(context).popAndPushNamed(registerPage);
+              },
               child: Center(
                 child: RichText(
                     text: TextSpan(children: [

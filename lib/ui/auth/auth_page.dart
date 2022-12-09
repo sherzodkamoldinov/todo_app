@@ -45,7 +45,7 @@ class AuthPage extends StatelessWidget {
             CustomButton(
                 text: 'CREATE ACCOUNT',
                 onPressed: () {
-                  Navigator.pushNamed(context, loginPage);
+                  Navigator.pushNamed(context, registerPage);
                 },
                 fillColor: false,
                 width: double.infinity),
