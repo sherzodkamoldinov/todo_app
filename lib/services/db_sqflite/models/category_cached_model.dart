@@ -10,33 +10,33 @@ class CachedCategoryFields {
   static const String iconPath = "icon_path";
 }
 
-class CachedCategory {
+class CachedCategoryModel {
   final int? id;
   final int categoryColor;
   final String categoryName;
   final int iconPath;
 
-  CachedCategory({
+  CachedCategoryModel({
     this.id,
     required this.categoryName,
     required this.iconPath,
     required this.categoryColor,
   });
 
-  CachedCategory copyWith({
+  CachedCategoryModel copyWith({
     int? id,
     int? categoryColor,
     String? categoryName,
     int? iconPath,
   }) =>
-      CachedCategory(
+      CachedCategoryModel(
         id: id ?? this.id,
         categoryColor: categoryColor ?? this.categoryColor,
         categoryName: categoryName ?? this.categoryName,
         iconPath: iconPath ?? this.iconPath,
       );
 
-  static CachedCategory fromJson(Map<String, Object?> json) => CachedCategory(
+  factory CachedCategoryModel.fromJson(Map<String, Object?> json) => CachedCategoryModel(
         id: json[CachedCategoryFields.id] as int?,
         categoryColor: json[CachedCategoryFields.categoryColor] as int,
         categoryName: json[CachedCategoryFields.categoryName] as String,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/services/db_sqflite/models/category_cached_model.dart';
+import 'package:todo_app/services/db_sqflite/models/todo_cached_model.dart';
 import 'package:todo_app/ui/home_page/widgets/bottom_navigator_bar.dart';
 import 'package:todo_app/ui/home_page/widgets/show_categories_list.dart';
 import 'package:todo_app/ui/home_page/widgets/show_priorities_list.dart';
@@ -17,6 +19,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final TextEditingController _titleController;
   late final TextEditingController _descController;
+
+  final List<CachedTodoModel> todos = [];
+  final List<CachedCategoryModel> categories = [];
+
+  _init(){
+    
+  }
 
   @override
   void initState() {
