@@ -12,8 +12,8 @@ class CategoryRepository {
   CategoryRepository._();
 
   // INSERT INIT CATEGORIES
-  Future insertInitCategories() async {
-    StorageRepository.putBool(CustomFields.isInitial, true);
+  static Future insertInitCategories() async {
+    await StorageRepository.putBool(CustomFields.isInitial, true);
     await insetCachedCategory(category: CachedCategoryModel(categoryName: 'Work', iconPath: Icons.work_outline.codePoint, categoryColor: 0xFFA31D00));
     await insetCachedCategory(category: CachedCategoryModel(categoryName: 'School', iconPath: Icons.school_outlined.codePoint, categoryColor: 0xFF0055A3));
     await insetCachedCategory(category: CachedCategoryModel(categoryName: 'Cook', iconPath: Icons.cookie_outlined.codePoint, categoryColor: 0xFF21A300));

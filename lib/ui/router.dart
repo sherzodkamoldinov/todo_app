@@ -6,6 +6,7 @@ import 'package:todo_app/ui/home_page/home_page.dart';
 import 'package:todo_app/ui/home_page/widgets/create_category_page.dart';
 import 'package:todo_app/ui/on_boarding/on_boarding_page.dart';
 import 'package:todo_app/ui/splash_page.dart';
+import 'package:todo_app/ui/tab_box/tab_box.dart';
 import 'package:todo_app/utils/const.dart';
 
 class MyRouter {
@@ -21,6 +22,8 @@ class MyRouter {
         return _navigateTo(view: const LoginPage());
       case registerPage:
         return _navigateTo(view: const RegisterPage());
+      case tabBox:
+        return _navigateTo(view: const TabBox());
       case homePage:
         return _navigateTo(view: const HomePage());
       case createCategoryPage:

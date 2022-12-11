@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/data/repository/storage_repository.dart';
 import 'package:todo_app/ui/router.dart';
 import 'package:todo_app/utils/const.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await StorageRepository.getInstance();
   runApp(const MyApp());
 }
 
@@ -13,12 +16,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'My Todo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: MyRouter.generateRoute,
-      initialRoute: homePage,
+      initialRoute: splashPage,
     );
   }
 }

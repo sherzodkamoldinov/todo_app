@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageRepository {
@@ -19,15 +19,15 @@ class StorageRepository {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  static Future<bool>? putString({required String key,required String value}) {
-    debugPrint('writing $key : $value');
+  static Future<bool>? putString({required String key, required String value}) {
     if (_preferences == null) return null;
+    debugPrint('writing $key : $value');
     return _preferences!.setString(key, value);
   }
 
   static Future<bool>? putList(String key, List<String> value) {
-    debugPrint('writing $key : $value');
     if (_preferences == null) return null;
+    debugPrint('writing $key : $value');
     return _preferences!.setStringList(key, value);
   }
 
@@ -53,8 +53,8 @@ class StorageRepository {
   }
 
   static Future<bool>? putDouble(String key, double value) {
-    debugPrint('writing $key : $value');
     if (_preferences == null) return null;
+    debugPrint('writing $key : $value');
     return _preferences!.setDouble(key, value);
   }
 
@@ -69,8 +69,8 @@ class StorageRepository {
   }
 
   static Future<bool>? putBool(String key, bool value) {
-    debugPrint('writing $key : $value');
     if (_preferences == null) return null;
+    debugPrint('writing $key : $value');
     return _preferences!.setBool(key, value);
   }
 

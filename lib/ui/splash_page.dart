@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/data/repository/storage_repository.dart';
 import 'package:todo_app/utils/colors.dart';
 import 'package:todo_app/utils/const.dart';
 import 'package:todo_app/utils/icons.dart';
@@ -12,12 +13,21 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  bool isLogged = false;
+  bool isInitial = false;
   @override
   void initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
-      // Navigator.pushNamed(context, onBoardingPage);
+    Future.delayed(const Duration(seconds: 4), () {
+      isInitial = StorageRepository.getBool(CustomFields.isInitial);
+      isLogged = StorageRepository.getBool(CustomFields.isLogged);
+      debugPrint('>>>>> IS INITIAL : $isInitial\n>>>>> IS LOGGED: $isLogged');
+      isLogged
+          ? Navigator.pushReplacementNamed(context, tabBox)
+          : isInitial
+              ? Navigator.pushReplacementNamed(context, authPage)
+              : Navigator.pushReplacementNamed(context, onBoardingPage);
     });
+    super.initState();
   }
 
   @override
@@ -28,9 +38,9 @@ class _SplashPageState extends State<SplashPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-        Image.asset(MyIcons.splash),
-        const SizedBox(height: 35),
-        Text('TODO APP', style: MyTextStyle.boldLato.copyWith(fontSize: 38, color: Colors.white)),
+            Image.asset(MyIcons.splash),
+            const SizedBox(height: 35),
+            Text('TODO APP', style: MyTextStyle.boldLato.copyWith(fontSize: 38, color: Colors.white)),
           ],
         ),
       ),

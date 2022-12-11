@@ -13,7 +13,7 @@ class AuthPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyColors.backgroundColor,
       appBar: CustomAppBar(onPressed: () {
-        Navigator.of(context).pop();
+        Navigator.pushReplacementNamed(context, onBoardingPage);
       }),
       body: Padding(
         padding: const EdgeInsets.all(20),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_app/data/repository/storage_repository.dart';
 import 'package:todo_app/ui/widgets/custom_app_bar.dart';
 import 'package:todo_app/ui/widgets/custom_button.dart';
 import 'package:todo_app/ui/widgets/custom_textfield.dart';
 import 'package:todo_app/utils/colors.dart';
 import 'package:todo_app/utils/const.dart';
 import 'package:todo_app/utils/text_style.dart';
+import 'package:todo_app/utils/utils.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -82,8 +84,20 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 40),
 
-            // LOGIN BUTTON
-            CustomButton(text: 'Register', onPressed: () {}, fillColor: true),
+            // REGISTER BUTTON
+            CustomButton(
+                text: 'Register',
+                onPressed: () async {
+                  var isValid = formKey.currentState!.validate();
+                  if (isValid) {
+                    Navigator.pushReplacementNamed(context, loginPage);
+                    await StorageRepository.putString(key: CustomFields.userName, value: _usernameController.text);
+                    await StorageRepository.putString(key: CustomFields.userPassword, value: _passwordController.text);
+                  } else {
+                    CustomSnackbar.showSnackbar(context, 'Зlease fill in correctly', SnackbarType.warning);
+                  }
+                },
+                fillColor: true),
             const SizedBox(height: 40),
 
             // OR REGISTER WITH ANTHER LINK

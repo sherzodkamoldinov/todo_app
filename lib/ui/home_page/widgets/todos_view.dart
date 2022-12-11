@@ -3,13 +3,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/data/fake_data/fake_todo_data.dart';
 import 'package:todo_app/data/models/todo_model.dart';
+import 'package:todo_app/services/db_sqflite/models/category_cached_model.dart';
+import 'package:todo_app/services/db_sqflite/models/todo_cached_model.dart';
 import 'package:todo_app/ui/widgets/todo_item.dart';
 import 'package:todo_app/utils/colors.dart';
 import 'package:todo_app/utils/icons.dart';
 import 'package:todo_app/utils/text_style.dart';
 
 class TodosView extends StatefulWidget {
-  const TodosView({super.key});
+  const TodosView({super.key, required this.todos, required this.categories});
+
+  final List<CachedTodoModel> todos;
+  final List<CachedCategoryModel> categories;
 
   @override
   State<TodosView> createState() => _TodosViewState();
@@ -73,8 +78,10 @@ class _TodosViewState extends State<TodosView> {
                           title: Text(
                             DateTime.fromMillisecondsSinceEpoch(time[0].createdAt).day == DateTime.now().day
                                 ? 'Today'
-                                : DateTime.fromMillisecondsSinceEpoch(time[0].createdAt).day == DateTime.now().day+1 ? 'Yesterday' : DateFormat('d MMM, ').format(DateTime.fromMillisecondsSinceEpoch(time[0].createdAt)).toLowerCase() +
-                                    DateFormat('EEEE').format(DateTime.fromMillisecondsSinceEpoch(time[0].createdAt)),
+                                : DateTime.fromMillisecondsSinceEpoch(time[0].createdAt).day == DateTime.now().day + 1
+                                    ? 'Yesterday'
+                                    : DateFormat('d MMM, ').format(DateTime.fromMillisecondsSinceEpoch(time[0].createdAt)).toLowerCase() +
+                                        DateFormat('EEEE').format(DateTime.fromMillisecondsSinceEpoch(time[0].createdAt)),
                           ),
                           expandedCrossAxisAlignment: CrossAxisAlignment.start,
                           children: List.generate(
@@ -83,7 +90,7 @@ class _TodosViewState extends State<TodosView> {
                                     todo: time[index],
                                     onPressed: (value) {
                                       setState(() {
-                                         time[index] =  time[index].copyWith(isDone: value);
+                                        time[index] = time[index].copyWith(isDone: value);
                                       });
                                     },
                                   )),

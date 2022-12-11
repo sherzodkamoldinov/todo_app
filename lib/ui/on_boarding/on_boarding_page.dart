@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:todo_app/data/repository/category_repository.dart';
+import 'package:todo_app/data/repository/storage_repository.dart';
 import 'package:todo_app/ui/on_boarding/pages/on_boarding_page_1.dart';
 import 'package:todo_app/ui/on_boarding/pages/on_boarding_page_2.dart';
 import 'package:todo_app/ui/on_boarding/pages/on_boarding_page_3.dart';
@@ -37,8 +39,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             children: [
               // SKIP BUTTON
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.pushNamed(context, authPage);
+                  if (!StorageRepository.getBool(CustomFields.isInitial)) {
+                    await CategoryRepository.insertInitCategories();
+                  }
                 },
                 child: Text('SKIP', style: MyTextStyle.regularLato.copyWith(color: Colors.white.withOpacity(.44))),
               ),
@@ -86,11 +91,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         )
                       : const Expanded(child: SizedBox()),
                   CustomButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (currentPage < 2) {
                         _pageController.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.ease);
                       } else {
                         Navigator.pushNamed(context, authPage);
+
+                        if (!StorageRepository.getBool(CustomFields.isInitial)) {
+                          await CategoryRepository.insertInitCategories();
+                        }
                       }
                     },
                     fillColor: true,

@@ -4,19 +4,19 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:todo_app/ui/widgets/custom_app_bar.dart';
 import 'package:todo_app/utils/colors.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class CalendarPage extends StatefulWidget {
+  const CalendarPage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<CalendarPage> createState() => _CalendarPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.backgroundColor,
-      appBar: const CustomAppBar(title: 'Profile Page'),
+      appBar: const CustomAppBar(title: 'Calendar Page'),
       body: SizedBox(),
     );
   }
