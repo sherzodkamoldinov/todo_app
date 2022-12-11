@@ -4,7 +4,7 @@ import 'package:todo_app/utils/colors.dart';
 import 'package:todo_app/utils/text_style.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key, required this.onPressed, this.title});
+  const CustomAppBar({super.key, this.onPressed, this.title});
   final VoidCallback? onPressed;
   final String? title;
 

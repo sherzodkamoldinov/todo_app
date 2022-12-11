@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/ui/auth/auth_page.dart';
 import 'package:todo_app/ui/auth/login_page.dart';
 import 'package:todo_app/ui/auth/register_page.dart';
+import 'package:todo_app/ui/home_page/home_page.dart';
+import 'package:todo_app/ui/home_page/widgets/create_category_page.dart';
 import 'package:todo_app/ui/on_boarding/on_boarding_page.dart';
 import 'package:todo_app/ui/splash_page.dart';
 import 'package:todo_app/utils/const.dart';
@@ -19,6 +21,10 @@ class MyRouter {
         return _navigateTo(view: const LoginPage());
       case registerPage:
         return _navigateTo(view: const RegisterPage());
+      case homePage:
+        return _navigateTo(view: const HomePage());
+      case createCategoryPage:
+        return _navigateTo(view: const CreateCategory());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
