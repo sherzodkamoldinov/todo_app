@@ -3,7 +3,7 @@ import 'package:todo_app/ui/calendar_page.dart';
 import 'package:todo_app/ui/focus_page.dart';
 import 'package:todo_app/ui/home_page/home_page.dart';
 import 'package:todo_app/ui/home_page/widgets/bottom_navigator_bar.dart';
-import 'package:todo_app/ui/profile_page.dart';
+import 'package:todo_app/ui/profile_page/profile_page.dart';
 
 class TabBox extends StatefulWidget {
   const TabBox({super.key});

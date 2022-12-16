@@ -4,6 +4,7 @@ import 'package:todo_app/data/repository/category_repository.dart';
 import 'package:todo_app/data/repository/storage_repository.dart';
 import 'package:todo_app/data/repository/todo_repository.dart';
 import 'package:todo_app/providers/todo_provider.dart';
+import 'package:todo_app/providers/user_provider.dart';
 import 'package:todo_app/ui/router.dart';
 import 'package:todo_app/utils/const.dart';
 
@@ -25,6 +26,9 @@ class App extends StatelessWidget {
             categoryRepository: CategoryRepository(),
             repository: TodoRepository(),
           ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
         ),
       ],
       child: MyApp(),
