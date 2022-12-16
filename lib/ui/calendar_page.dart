@@ -2,7 +2,6 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:date_picker_timeline/extra/dimen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/data/repository/todo_repository.dart';
 import 'package:todo_app/providers/todo_provider.dart';
 import 'package:todo_app/services/db_sqflite/models/todo_cached_model.dart';
 import 'package:todo_app/ui/widgets/custom_app_bar.dart';
@@ -64,6 +63,7 @@ class _CalendarPageState extends State<CalendarPage> {
     debugPrint('COUNT DAYS: $difference');
   }
 
+// SET SUNDAY AND SATURDAY
   sundayAndSaturday() {
     if ((firstDate.weekday != DateTime.sunday)) {
       firstDate = DateTime(firstDate.year, firstDate.month, firstDate.day - firstDate.weekday);
