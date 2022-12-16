@@ -42,7 +42,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 onPressed: () async {
                   Navigator.pushNamed(context, authPage);
                   if (!StorageRepository.getBool(CustomFields.isInitial)) {
-                    await CategoryRepository.insertInitCategories();
+                    await CategoryRepository().insertInitCategories();
                   }
                 },
                 child: Text('SKIP', style: MyTextStyle.regularLato.copyWith(color: Colors.white.withOpacity(.44))),
@@ -98,7 +98,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         Navigator.pushNamed(context, authPage);
 
                         if (!StorageRepository.getBool(CustomFields.isInitial)) {
-                          await CategoryRepository.insertInitCategories();
+                          await CategoryRepository().insertInitCategories();
                         }
                       }
                     },

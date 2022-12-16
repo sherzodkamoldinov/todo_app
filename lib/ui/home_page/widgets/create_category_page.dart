@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/data/repository/category_repository.dart';
+import 'package:todo_app/providers/todo_provider.dart';
+import 'package:todo_app/services/db_sqflite/models/category_cached_model.dart';
 import 'package:todo_app/ui/widgets/custom_app_bar.dart';
 import 'package:todo_app/ui/widgets/custom_button.dart';
 import 'package:todo_app/ui/widgets/custom_textfield.dart';
 import 'package:todo_app/utils/colors.dart';
 import 'package:todo_app/utils/text_style.dart';
+import 'package:todo_app/utils/utils.dart';
 
 class CreateCategory extends StatefulWidget {
   const CreateCategory({super.key});
@@ -31,6 +36,7 @@ class _CreateCategoryState extends State<CreateCategory> {
   ];
   IconData? selectedIcon;
   Color selectedColor = MyColors.fontColor;
+  int myColor = 0xFFFFFFFF;
   Color selectedBackColor = MyColors.dialogColor;
 
   @override
@@ -65,12 +71,8 @@ class _CreateCategoryState extends State<CreateCategory> {
                 // TEXT FIELD
                 Text('Category name:', style: MyTextStyle.regularLato),
                 const SizedBox(height: 10),
-                SizedBox(
-                  height: 46,
-                  child: CustomTextField(controller: _controller, isEnd: true, hintText: 'Category name', isPassword: false),
-                ),
+                CustomTextField(maxLength: 12, controller: _controller, isEnd: false, hintText: 'Category name', isPassword: false),
                 const SizedBox(height: 20),
-
                 // CHOOSE ICON
                 ElevatedButton(
                   onPressed: () {
@@ -176,12 +178,13 @@ class _CreateCategoryState extends State<CreateCategory> {
                   (index) => GestureDetector(
                         onTap: () {
                           setState(() {
-                            selectedColor = MyColors.categoryColors[index];
-                            selectedBackColor = MyColors.categoryColors[index].withOpacity(0.5);
+                            selectedColor = Color(MyColors.categoryColors[index]);
+                            selectedBackColor = Color(MyColors.categoryColors[index]).withOpacity(0.5);
+                            myColor = MyColors.categoryColors[index];
                           });
                         },
                         child: CircleAvatar(
-                          backgroundColor: MyColors.categoryColors[index],
+                          backgroundColor: Color(MyColors.categoryColors[index]),
                           minRadius: 30,
                           child: const SizedBox.square(
                             dimension: 30,
@@ -207,7 +210,28 @@ class _CreateCategoryState extends State<CreateCategory> {
                         'Cancel',
                         style: MyTextStyle.regularLato.copyWith(color: MyColors.buttonColor),
                       )),
-                  CustomButton(fillColor: true, onPressed: () {}, text: 'Create Category')
+                  CustomButton(
+                      fillColor: true,
+                      onPressed: () async {
+                        if (_controller.text.trim().isNotEmpty) {
+                          if (selectedIcon != null) {
+                            var newCategory = CachedCategoryModel(
+                              categoryName: _controller.text,
+                              iconPath: selectedIcon!.codePoint,
+                              categoryColor: myColor,
+                            );
+                            await context.read<TodoProvider>().insertNewCategory(newCategory);
+                            await context.read<TodoProvider>().getCategories();
+                            if (!mounted) return;
+                            Navigator.pop(context);
+                          } else {
+                            CustomSnackbar.showSnackbar(context, 'Please select icon', SnackbarType.warning, fromTop: true);
+                          }
+                        } else {
+                          CustomSnackbar.showSnackbar(context, 'Fill name of category', SnackbarType.warning, fromTop: true);
+                        }
+                      },
+                      text: 'Create Category')
                 ],
               ),
             ),

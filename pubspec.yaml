@@ -12,7 +12,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  date_picker_timeline:
+    path: packages/date_picker_timeline
+    
   cupertino_icons: ^1.0.2
   font_awesome_flutter: ^10.3.0
   smooth_page_indicator: ^1.0.0+2
@@ -23,6 +25,7 @@ dependencies:
   flutter_svg: ^1.1.6
   lottie: ^2.0.0
   intl: ^0.17.0
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +45,7 @@ flutter:
     - assets/images/
     - assets/lottie/
     - assets/svg/
+    - assets/svg/types/
     - assets/png/
     - assets/fonts/
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/utils/colors.dart';
 import 'package:todo_app/utils/text_style.dart';
 
-showPrioritiesList(BuildContext context) {
+showPrioritiesList(BuildContext context, ValueChanged<int> valueSelected) {
   showDialog(
     context: context,
     builder: (context) {
@@ -56,6 +56,7 @@ showPrioritiesList(BuildContext context) {
               (index) {
                 return GestureDetector(
                   onTap: () {
+                    valueSelected.call(index);
                     Navigator.pop(context);
                   },
                   child: Container(

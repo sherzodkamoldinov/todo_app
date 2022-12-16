@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_app/data/fake_data/fake_category.dart';
-import 'package:todo_app/data/models/todo_model.dart';
+import 'package:todo_app/services/db_sqflite/models/category_cached_model.dart';
+import 'package:todo_app/services/db_sqflite/models/todo_cached_model.dart';
 import 'package:todo_app/ui/widgets/little_category_item.dart';
 import 'package:todo_app/ui/widgets/little_priority_item.dart';
 import 'package:todo_app/utils/colors.dart';
 import 'package:todo_app/utils/text_style.dart';
 
 class TodoItem extends StatelessWidget {
-  const TodoItem({super.key, required this.onPressed, required this.todo});
+  const TodoItem({super.key, required this.onPressed, required this.todo, required this.category});
 
   final ValueChanged onPressed;
-  final TodoModel todo;
+  final CachedTodoModel todo;
+  final CachedCategoryModel category;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class TodoItem extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100),
               ),
-              value: todo.isDone,
+              value: todo.isDone == 0 ? false : true,
               onChanged: onPressed,
             ),
           ),
@@ -45,20 +46,25 @@ class TodoItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  todo.title,
+                  todo.todoTitle,
                   style: MyTextStyle.regularLato,
                   overflow: TextOverflow.ellipsis,
                 ),
                 Row(
                   children: [
                     Text(
-                      'Today at ${DateFormat('HH: mm').format(DateTime.fromMillisecondsSinceEpoch(todo.createdAt))}',
+                      DateTime.fromMillisecondsSinceEpoch(todo.dateTime).day == DateTime.now().day
+                          ? 'Today'
+                          : DateTime.fromMillisecondsSinceEpoch(todo.dateTime).day == DateTime.now().day + 1
+                              ? 'Yesterday'
+                              : DateFormat('d MMM, ').format(DateTime.fromMillisecondsSinceEpoch(todo.dateTime)).toLowerCase() +
+                                  DateFormat('EEEE').format(DateTime.fromMillisecondsSinceEpoch(todo.dateTime)),
                       style: MyTextStyle.regularLato.copyWith(fontSize: 14, color: const Color(0xFFAFAFAF)),
                     ),
                     const Expanded(child: SizedBox()),
-                    littleCategoryItem(category: categories.where((element) => element.id == todo.categoryId).toList()[0]),
+                    littleCategoryItem(category: category),
                     const SizedBox(width: 12),
-                    littlePriorityItem(todo.priority)
+                    littlePriorityItem(todo.urgentLevel)
                   ],
                 )
               ],

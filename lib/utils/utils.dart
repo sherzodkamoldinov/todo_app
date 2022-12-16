@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class MyUtils {
   static bool isKeyboardShowing() {
@@ -17,17 +17,28 @@ class MyUtils {
       currentFocus.unfocus();
     }
   }
+
+  static String toHex({bool leadingHashSign = false, required Color color}) => '${leadingHashSign ? '#' : ''}'
+      '${color.red.toRadixString(16).padLeft(2, '0')}'
+      '${color.green.toRadixString(16).padLeft(2, '0')}'
+      '${color.blue.toRadixString(16).padLeft(2, '0')}';
+
+  static String getDateStatus(int time, {bool isShort = false}) {
+    return DateTime.fromMillisecondsSinceEpoch(time).day == DateTime.now().day
+        ? 'Today'
+        : DateTime.fromMillisecondsSinceEpoch(time).day == DateTime.now().day + 1
+            ? 'Yesterday'
+            : isShort ? DateFormat('d MMM').format(DateTime.fromMillisecondsSinceEpoch(time)) :
+            DateFormat('d MMM, ').format(DateTime.fromMillisecondsSinceEpoch(time)).toLowerCase() + DateFormat('EEEE').format(DateTime.fromMillisecondsSinceEpoch(time));
+  }
 }
 
 class CustomSnackbar {
-  static showSnackbar(
-    BuildContext context,
-    String text,
-    SnackbarType type,
-  ) {
+  static showSnackbar(BuildContext context, String text, SnackbarType type, {bool? fromTop}) {
     return ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
+        margin: fromTop != null ? EdgeInsets.only(bottom: MediaQuery.of(context).size.height - 250) : null,
         content: Stack(
           clipBehavior: Clip.none,
           children: [

@@ -11,7 +11,7 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(
-        'Index',
+        'My Todos',
         style: MyTextStyle.regularLato.copyWith(fontSize: 20),
       ),
       centerTitle: true,

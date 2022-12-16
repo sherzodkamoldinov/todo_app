@@ -9,35 +9,35 @@ class TodoRepository {
 
   TodoRepository._();
 
-  static Future<CachedTodoModel> insertCachedTodo({required CachedTodoModel cachedTodo}) async {
+  Future<CachedTodoModel> insertCachedTodo({required CachedTodoModel cachedTodo}) async {
     return await LocalDatabase.insertCachedTodo(cachedTodo);
   }
 
-  static Future<CachedTodoModel> getSingleTodoById({required int id}) async {
+  Future<CachedTodoModel> getSingleTodoById({required int id}) async {
     return await LocalDatabase.getSingleTodoById(id);
   }
 
-  static Future<List<CachedTodoModel>> getAllCachedTodos() async {
+  Future<List<CachedTodoModel>> getAllCachedTodos() async {
     return await LocalDatabase.getAllCachedTodos();
   }
 
-  static Future<List<CachedTodoModel>> getAllCachedTodosByDone({required bool isDone}) async {
+  Future<List<CachedTodoModel>> getAllCachedTodosByDone({required int isDone}) async {
     return await LocalDatabase.getAllCachedTodosByDone(isDone);
   }
 
-  static Future<int> updateCachedTodoIsDone({required bool isDone, required int id}) async {
+  Future<int> updateCachedTodoIsDone({required int isDone, required int id}) async {
     return await LocalDatabase.updateCachedTodoIsDone(id, isDone);
   }
 
-  static Future<int> updateCachedTodoById({required int id, required CachedTodoModel cachedTodo}) async {
+  Future<int> updateCachedTodoById({required int id, required CachedTodoModel cachedTodo}) async {
     return await LocalDatabase.updateCachedTodo(id: id, todo: cachedTodo);
   }
 
-  static Future<int> deleteAllCachedTodos() async {
+  Future<int> deleteAllCachedTodos() async {
     return await LocalDatabase.deleteAllCachedTodos();
   }
 
-  static Future<int> deleteCachedTodoById({required int id}) async {
+  Future<int> deleteCachedTodoById({required int id}) async {
     return await LocalDatabase.deleteCachedTodoById(id);
   }
 }

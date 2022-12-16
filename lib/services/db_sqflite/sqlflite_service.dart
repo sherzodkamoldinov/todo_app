@@ -63,6 +63,7 @@ class LocalDatabase {
   static Future<CachedTodoModel> insertCachedTodo(CachedTodoModel todo) async {
     final db = await _instance.database;
     final id = await db.insert(todoTable, todo.toJson());
+    print('DATA ADDED');
     return todo.copyWith(id: id);
   }
 
@@ -91,7 +92,7 @@ class LocalDatabase {
     return result.map((json) => CachedTodoModel.fromJson(json)).toList();
   }
 
-  static Future<List<CachedTodoModel>> getAllCachedTodosByDone(bool isDone) async {
+  static Future<List<CachedTodoModel>> getAllCachedTodosByDone(int isDone) async {
     final db = await _instance.database;
     final result = await db.query(todoTable, where: '${CachedTodoFields.isDone}=?', whereArgs: [isDone]);
     return result.map((json) => CachedTodoModel.fromJson(json)).toList();
@@ -138,7 +139,7 @@ class LocalDatabase {
     return result;
   }
 
-  static Future<int> updateCachedTodoIsDone(int id, bool isDone) async {
+  static Future<int> updateCachedTodoIsDone(int id, int isDone) async {
     Map<String, dynamic> row = {
       CachedTodoFields.isDone: isDone,
     };

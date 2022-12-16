@@ -18,7 +18,9 @@ class CachedTodoModel {
   final String todoDescription;
   final int categoryId;
   final int dateTime;
-  final bool isDone;
+  // 0 - false
+  // 1 - true
+  final int isDone;
   final int urgentLevel;
 
   CachedTodoModel({
@@ -37,7 +39,7 @@ class CachedTodoModel {
     String? todoDescription,
     int? categoryId,
     int? dateTime,
-    bool? isDone,
+    int? isDone,
     int? urgentLevel,
   }) =>
       CachedTodoModel(
@@ -56,7 +58,7 @@ class CachedTodoModel {
         todoDescription: json[CachedTodoFields.todoDescription] as String,
         categoryId: json[CachedTodoFields.categoryId] as int,
         dateTime: json[CachedTodoFields.dateTime] as int,
-        isDone: json[CachedTodoFields.isDone] as bool,
+        isDone: json[CachedTodoFields.isDone] as int,
         urgentLevel: json[CachedTodoFields.urgentLevel] as int,
       );
 

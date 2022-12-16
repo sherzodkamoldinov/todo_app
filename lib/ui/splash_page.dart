@@ -22,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
       isLogged = StorageRepository.getBool(CustomFields.isLogged);
       debugPrint('>>>>> IS INITIAL : $isInitial\n>>>>> IS LOGGED: $isLogged');
       isLogged
-          ? Navigator.pushReplacementNamed(context, tabBox)
+          ? Navigator.pushReplacementNamed(context, tabBox,arguments: 0)
           : isInitial
               ? Navigator.pushReplacementNamed(context, authPage)
               : Navigator.pushReplacementNamed(context, onBoardingPage);

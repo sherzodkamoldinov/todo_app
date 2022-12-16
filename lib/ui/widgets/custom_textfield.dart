@@ -4,7 +4,7 @@ import 'package:todo_app/utils/text_style.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField(
-      {super.key, TextEditingController? confirmController, required TextEditingController controller, required this.isEnd, required this.hintText, required this.isPassword, this.isVisibility})
+      {super.key, TextEditingController? confirmController, required TextEditingController controller, required this.isEnd, required this.hintText, required this.isPassword, this.isVisibility, this.maxLength})
       : _controller = controller,
         _confirmController = confirmController;
   final TextEditingController _controller;
@@ -13,10 +13,12 @@ class CustomTextField extends StatelessWidget {
   final bool isPassword;
   final TextEditingController? _confirmController;
   final bool? isVisibility;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: maxLength,
       obscureText: isPassword ? isVisibility! : false,
       style: MyTextStyle.regularLato.copyWith(color: MyColors.fontColor),
       controller: _controller,
