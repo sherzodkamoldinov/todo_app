@@ -28,8 +28,13 @@ class MyUtils {
         ? 'Today'
         : DateTime.fromMillisecondsSinceEpoch(time).day == DateTime.now().day + 1
             ? 'Yesterday'
-            : isShort ? DateFormat('d MMM').format(DateTime.fromMillisecondsSinceEpoch(time)) :
-            DateFormat('d MMM, ').format(DateTime.fromMillisecondsSinceEpoch(time)).toLowerCase() + DateFormat('EEEE').format(DateTime.fromMillisecondsSinceEpoch(time));
+            : isShort
+                ? DateFormat('d MMM').format(DateTime.fromMillisecondsSinceEpoch(time))
+                : DateFormat('d MMM, ').format(DateTime.fromMillisecondsSinceEpoch(time)).toLowerCase() + DateFormat('EEEE').format(DateTime.fromMillisecondsSinceEpoch(time));
+  }
+
+  static getDateWithoutHourAndMinut(DateTime time) {
+    return DateTime(time.year, time.month, time.day);
   }
 }
 

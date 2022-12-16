@@ -1,9 +1,10 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:date_picker_timeline/extra/dimen.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/data/repository/todo_repository.dart';
 import 'package:todo_app/providers/todo_provider.dart';
+import 'package:todo_app/services/db_sqflite/models/todo_cached_model.dart';
 import 'package:todo_app/ui/widgets/custom_app_bar.dart';
 import 'package:todo_app/ui/widgets/custom_button.dart';
 import 'package:todo_app/ui/widgets/todo_item.dart';
@@ -22,16 +23,21 @@ class _CalendarPageState extends State<CalendarPage> {
   late DateTime currentDate;
   late DateTime firstDate;
   late DateTime lastDate;
+
   int difference = 21;
-  DateTime now = DateTime.now();
   int activeButton = 0;
+
+  List<CachedTodoModel> notDoneTodos = [];
+  List<CachedTodoModel> doneTodos = [];
 
   @override
   void initState() {
     super.initState();
+
     currentDate = DateTime.now();
     firstDate = DateTime.now();
     lastDate = DateTime.now().add(const Duration(days: 21));
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
     });
@@ -39,27 +45,52 @@ class _CalendarPageState extends State<CalendarPage> {
 
   _init() async {
     await context.read<TodoProvider>().getAllTodos();
+
+    getTodos();
+
     if (context.read<TodoProvider>().todos.isNotEmpty) {
       firstDate = DateTime.fromMillisecondsSinceEpoch(context.read<TodoProvider>().todos.first[0].dateTime);
 
       lastDate = DateTime.fromMillisecondsSinceEpoch(context.read<TodoProvider>().todos.last[0].dateTime).add(const Duration(days: 1));
+
       if (lastDate.difference(firstDate).inDays > 21) {
         difference = lastDate.difference(firstDate).inDays;
       }
-    } else {}
+    }
+
     sundayAndSaturday();
     setState(() {});
-    print(difference);
+
+    debugPrint('COUNT DAYS: $difference');
   }
 
   sundayAndSaturday() {
-    if (firstDate.weekday != DateTime.sunday) {
+    if ((firstDate.weekday != DateTime.sunday)) {
       firstDate = DateTime(firstDate.year, firstDate.month, firstDate.day - firstDate.weekday);
     }
+
     if (lastDate.weekday != DateTime.saturday) {
       var beetwen = (DateTime.saturday - lastDate.weekday).abs();
       lastDate = DateTime(lastDate.year, lastDate.month, lastDate.day + beetwen);
     }
+  }
+
+// GET TODOS AT EACH DATES (DONE AND NOT DONE TODOS)
+  void getTodos() {
+    notDoneTodos = [];
+    doneTodos = [];
+    debugPrint('>>CURRENT DATE: $currentDate');
+    List<List<CachedTodoModel>> allTodos = context.read<TodoProvider>().todos;
+    debugPrint('>>ALL TODOS: ${allTodos.length}');
+    for (var sortedTodosByDate in allTodos) {
+      if (MyUtils.getDateWithoutHourAndMinut(DateTime.fromMillisecondsSinceEpoch(sortedTodosByDate.first.dateTime)) == MyUtils.getDateWithoutHourAndMinut(currentDate)) {
+        for (var element in sortedTodosByDate) {
+          element.isDone == 0 ? notDoneTodos.add(element) : doneTodos.add(element);
+        }
+      }
+    }
+    debugPrint('>>AFTER GET NOT DONE TODOS: ${notDoneTodos.length}');
+    debugPrint('>>AFTER GET DONE TODOS: ${doneTodos.length}');
   }
 
   @override
@@ -110,6 +141,9 @@ class _CalendarPageState extends State<CalendarPage> {
                       currentDate = date;
                       debugPrint('CURRENT DATE: ${date.day}/${date.month}/${date.year}');
                     });
+
+                    // GET TODOS AT EACH DATES (DONE AND NOT DONE TODOS)
+                    getTodos();
                   },
                 ),
               ],
@@ -118,7 +152,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
           // TODOS NOT DONE / DONE
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+            margin: const EdgeInsets.fromLTRB(15,10,15,4),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: MyColors.dialogColor),
             child: Row(
@@ -148,26 +182,50 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
           ),
 
-          Expanded(
-            child: context.read<TodoProvider>().notDoneTodos.where((element) => element.first.dateTime == currentDate.millisecondsSinceEpoch).toList().isNotEmpty ?
-            ListView.builder(
-              itemCount: context.read<TodoProvider>().notDoneTodos.where((element) => element.first.dateTime == currentDate.millisecondsSinceEpoch).toList()[0].length,
-              itemBuilder: (context, index) {
-                var todo = context.read<TodoProvider>().notDoneTodos.where((element) => element.first.dateTime == currentDate.millisecondsSinceEpoch).toList()[0][index];
-                var categories = context.read<TodoProvider>().categories;
-                return TodoItem(onPressed: (value) {}, todo: todo, category: categories.where((element) => element.id == todo.categoryId).first);
-              },
-            ): Center(child: Text('Here empty please add your tasks for this day', style: MyTextStyle.regularLato, textAlign: TextAlign.center,)),
-          )
+          activeButton == 0 ? buildListView(notDoneTodos, 0) : buildListView(doneTodos, 1)
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // await TodoRepository().deleteAllCachedTodos();
-          // context.read<TodoProvider>().getAllTodos();
-          debugPrint('CURRENT DAY: $difference');
-        },
-      ),
+    );
+  }
+
+  Widget buildListView(List<CachedTodoModel> typeTodo, int type) {
+    debugPrint(typeTodo.length.toString());
+    return Expanded(
+      child: typeTodo.isNotEmpty
+          ? ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+              itemCount: typeTodo.length,
+              itemBuilder: (context, index) {
+                final todo = typeTodo[index];
+                final categories = context.read<TodoProvider>().categories;
+                return TodoItem(
+                  onPressed: (value) async {
+                    setState(() {
+                      type == 0 
+                      ? notDoneTodos[index] = typeTodo[index].copyWith(isDone: value ? 1 : 0) 
+                      : doneTodos[index] = typeTodo[index].copyWith(isDone: value ? 1 : 0);
+                    });
+                    Future.delayed(const Duration(milliseconds: 300), () async {
+                      await context.read<TodoProvider>().updateTodoisDone(typeTodo[index].id!, value == true ? 1 : 0);
+                      await context.read<TodoProvider>().getAllTodos();
+                      getTodos();
+                    });
+                  },
+                  todo: todo,
+                  category: categories.where((element) => element.id == todo.categoryId).first,
+                );
+              },
+            )
+          : Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Text(
+                activeButton == 0 ? 'Here empty please first add tasks for this day.' : 'Here empty please first complite tasks for this day.',
+                style: MyTextStyle.regularLato,
+                textAlign: TextAlign.center,
+                          ),
+              )),
     );
   }
 }

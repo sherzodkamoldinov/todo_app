@@ -67,6 +67,15 @@ class TodoProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> deleteAllTodos() async {
+    await _repository.deleteAllCachedTodos();
+    todos = [];
+    notDoneTodos = [];
+    doneTodos = [];
+    categories = [];
+    notify(false);
+  }
+
   // ------------------ CATEGORIES -------------------
   Future<void> getCategories() async {
     notify(true);

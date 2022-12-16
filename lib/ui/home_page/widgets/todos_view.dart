@@ -97,7 +97,7 @@ class _TodosViewState extends State<TodosView> {
                                             time[index] = time[index].copyWith(isDone: value ? 1 : 0);
                                           });
                                           Future.delayed(const Duration(milliseconds: 600), () async {
-                                            context.read<TodoProvider>().updateTodoisDone(time[index].id!, value == true ? 1 : 0);
+                                            await context.read<TodoProvider>().updateTodoisDone(time[index].id!, value == true ? 1 : 0);
                                           });
                                         },
                                         category: todo.categories.where((element) => element.id == time[index].categoryId).toList().first,
