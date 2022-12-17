@@ -6,6 +6,7 @@ const String registerPage = '/on_boarding_page/auth_page/register_page';
 const String homePage = '/home_page';
 const String createCategoryPage = '../create_category_page';
 const String tabBox = '/tab_box';
+const String settingsPage = '/profile/settings';
 
 class CustomFields {
   static const String isInitial = 'is_initial';

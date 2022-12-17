@@ -9,6 +9,13 @@ class MyTextStyle {
     fontWeight: FontWeight.w400,
   );
 
+  static TextStyle mediumLato = TextStyle(
+    fontFamily: 'Lato',
+    fontSize: 16,
+    color: MyColors.fontColor,
+    fontWeight: FontWeight.w500,
+  );
+
   static TextStyle thinLato = TextStyle(
     fontFamily: 'Lato',
     fontSize: 16,

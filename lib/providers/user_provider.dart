@@ -15,7 +15,18 @@ class UserProvider extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  getUserImage() {
+  changeUserName(String newUsername) async {
+    await StorageRepository.putString(key: CustomFields.userName, value: newUsername);
+    userName = newUsername;
+    notify(false);
+  }
+
+  changeUserPassword(String newPassword) async {
+    await StorageRepository.putString(key: CustomFields.userPassword, value: newPassword);
+  }
+
+  readLocale() {
+    userName = StorageRepository.getString(CustomFields.userName);
     String imagePath = StorageRepository.getString(CustomFields.userImagePath);
     if (imagePath.isNotEmpty) {
       userImageFile = File(imagePath);
@@ -38,7 +49,7 @@ class UserProvider extends ChangeNotifier {
 
   getUserImageFromCamera(BuildContext context) async {
     notify(true);
-    XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       userImageFile = File(pickedFile.path);
       await StorageRepository.putString(key: CustomFields.userImagePath, value: pickedFile.path);

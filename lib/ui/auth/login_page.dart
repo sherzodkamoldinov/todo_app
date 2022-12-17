@@ -53,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                     hintText: 'Enter your Username',
                     isEnd: false,
                     isPassword: false,
+                    isFill: true,
                   ),
                   const SizedBox(height: 25),
 
@@ -64,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                     hintText: 'Enter your Password',
                     isEnd: true,
                     isPassword: true,
-                    isVisibility: true,
+                    isFill: true,
                   ),
                 ],
               ),

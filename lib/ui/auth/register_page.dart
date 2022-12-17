@@ -54,6 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: 'Enter your Username',
                     isEnd: false,
                     isPassword: false,
+                    isFill: true,
                   ),
                   const SizedBox(height: 25),
 
@@ -65,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: 'Enter your Password',
                     isEnd: false,
                     isPassword: true,
-                    isVisibility: true,
+                    isFill: true,
                   ),
                   const SizedBox(height: 25),
 
@@ -76,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: 'Enter your confirm Password',
                     isEnd: true,
                     isPassword: true,
-                    isVisibility: true,
+                    isFill: true,
                     confirmController: _passwordController,
                   ),
                 ],
@@ -91,10 +92,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   var isValid = formKey.currentState!.validate();
                   if (isValid) {
                     Navigator.pushReplacementNamed(context, loginPage);
-                    await StorageRepository.putString(key: CustomFields.userName, value: _usernameController.text);
-                    await StorageRepository.putString(key: CustomFields.userPassword, value: _passwordController.text);
+                    await StorageRepository.putString(key: CustomFields.userName, value: _usernameController.text.trim());
+                    await StorageRepository.putString(key: CustomFields.userPassword, value: _passwordController.text.trim());
                   } else {
-                    CustomSnackbar.showSnackbar(context, 'Зlease fill in correctly', SnackbarType.warning);
+                    CustomSnackbar.showSnackbar(context, 'Please fill in correctly', SnackbarType.warning, fromTop: true);
                   }
                 },
                 fillColor: true),

@@ -71,7 +71,7 @@ class _CreateCategoryState extends State<CreateCategory> {
                 // TEXT FIELD
                 Text('Category name:', style: MyTextStyle.regularLato),
                 const SizedBox(height: 10),
-                CustomTextField(maxLength: 12, controller: _controller, isEnd: false, hintText: 'Category name', isPassword: false),
+                CustomTextField(maxLength: 12, controller: _controller, isEnd: false, hintText: 'Category name', isPassword: false, isFill: true,),
                 const SizedBox(height: 20),
                 // CHOOSE ICON
                 ElevatedButton(

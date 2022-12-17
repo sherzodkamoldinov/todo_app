@@ -4,11 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/data/repository/category_repository.dart';
 import 'package:todo_app/data/repository/todo_repository.dart';
 import 'package:todo_app/providers/todo_provider.dart';
+import 'package:todo_app/providers/user_provider.dart';
 import 'package:todo_app/services/db_sqflite/models/category_cached_model.dart';
 import 'package:todo_app/services/db_sqflite/models/todo_cached_model.dart';
 import 'package:todo_app/ui/home_page/widgets/emty_view.dart';
 import 'package:todo_app/ui/home_page/widgets/todos_view.dart';
-import 'package:todo_app/ui/tab_box/widgets/add_todo_button.dart';
+import 'package:todo_app/ui/home_page/widgets/add_todo_button.dart';
 import 'package:todo_app/ui/widgets/custom_home_app_bar.dart';
 import 'package:todo_app/utils/colors.dart';
 
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _init() async {
+    context.read<UserProvider>().readLocale();
     await context.read<TodoProvider>().getTodosByDone(0);
     await context.read<TodoProvider>().getCategories();
   }

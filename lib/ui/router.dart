@@ -4,6 +4,7 @@ import 'package:todo_app/ui/auth/login_page.dart';
 import 'package:todo_app/ui/auth/register_page.dart';
 import 'package:todo_app/ui/home_page/widgets/create_category_page.dart';
 import 'package:todo_app/ui/on_boarding/on_boarding_page.dart';
+import 'package:todo_app/ui/setting_page.dart';
 import 'package:todo_app/ui/splash_page.dart';
 import 'package:todo_app/ui/tab_box/tab_box.dart';
 import 'package:todo_app/utils/const.dart';
@@ -24,7 +25,9 @@ class MyRouter {
       case tabBox:
         return _navigateTo(view: const TabBox());
       case createCategoryPage:
-        return _navigateTo(view:  CreateCategory());
+        return _navigateTo(view: const CreateCategory());
+      case settingsPage:
+        return _navigateTo(view: const SettingsPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
